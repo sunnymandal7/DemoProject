@@ -1,0 +1,14 @@
+{
+  "active_user" : [
+    {
+      "userEmail" : "rahulshettyacademy",
+      "userPassword" : "learning"
+    }
+  ],
+  "Inactive_user" : [
+    {
+      "userEmail" : "Subhadeep",
+      "userPassword" : "fail"
+    }
+  ]
+}
