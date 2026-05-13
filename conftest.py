@@ -1,6 +1,6 @@
 import os
 from pickle import GLOBAL
-
+from config import load_settings
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -11,8 +11,12 @@ def pytest_addoption(parser):
     parser.addoption(
         "--BrowserName", action="store", default="chrome", help="Browser Selection"
     )
+    parser.addoption(
+        "--env", action="store", default="dev",
+                     help="Environment: dev | staging | prod")
+
 @pytest.fixture(scope = "function")
-def browser_instance(request):
+def browser_instance(request, settings):
     global driver
     BrowserName = request.config.getoption("BrowserName")
     service_obj = Service()
@@ -21,10 +25,15 @@ def browser_instance(request):
     elif BrowserName == "Edge":
         driver = webdriver.Edge(service=service_obj)
     driver.implicitly_wait(5)
-    driver.get("https://rahulshettyacademy.com/loginpagePractise/")
+    driver.get(settings.BASE_URL)
+    # driver.get("https://rahulshettyacademy.com/loginpagePractise/")
     yield driver
     driver.close()
 
+@pytest.fixture(scope="session")
+def settings(request):
+    env = request.config.getoption("--env")
+    return load_settings(env)
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
