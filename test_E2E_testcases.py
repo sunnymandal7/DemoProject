@@ -5,7 +5,7 @@ import pytest
 from PageObjects.CheckOutPage import CheckOutPage
 from PageObjects.LoginPage import LoginPage
 from PageObjects.ShopPage import ShopPage
-
+# pytest --env staging --BrowserName chrome
 test_data_path = 'TestData/active_user.json'
 with open(test_data_path) as json_file:
     test_data = json.load(json_file)
